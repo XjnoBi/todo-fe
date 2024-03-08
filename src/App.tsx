@@ -1,15 +1,15 @@
-import React from 'react'
-import { ThemeProvider } from 'styled-components'
+import React from "react";
+import { ThemeProvider } from "styled-components";
 
-import Applicants from 'modules/Applicants'
-import GlobalStyle from 'styles/GlobalStyle'
-import { theme } from 'styles/theme'
+import Todo from "modules/Todo";
+import GlobalStyle from "styles/GlobalStyle";
+import { theme } from "styles/theme";
 
 const App: React.FC = () => (
   <ThemeProvider theme={theme}>
     <GlobalStyle />
-    <Applicants />
+    <Todo />
   </ThemeProvider>
-)
+);
 
-export default App
+export default App;

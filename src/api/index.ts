@@ -4,10 +4,9 @@ type RequestOptions = {
   body?: string;
 }
 
-const BASE_URL = 'localhost:8081'
+const BASE_URL = 'http://localhost:8081'
 
-const useApiService = () => {
-  const request = async <T>(endpoint: string, options: RequestOptions = {}): Promise<T> => {
+const request = async <T>(endpoint: string, options: RequestOptions = {}): Promise<T> => {
     const { method = 'GET', headers = {}, body } = options;
 
     const requestOptions: RequestInit = {
@@ -17,6 +16,7 @@ const useApiService = () => {
         ...headers,
       },
       body: body ? JSON.stringify(body) : undefined,
+      mode: 'cors'
     };
 
     try {
@@ -33,15 +33,15 @@ const useApiService = () => {
     }
   };
 
-  const get = async <T>(endpoint: string): Promise<T> => {
+  const apiGet = async <T>(endpoint: string): Promise<T> => {
     return request<T>(endpoint);
   };
 
-  const post = async <T>(endpoint: string, body: any): Promise<T> => {
+  const apiPost = async <T>(endpoint: string, body: any): Promise<T> => {
     return request<T>(endpoint, { method: 'POST', body });
   };
 
-  const put = async <T>(endpoint: string, body: any): Promise<T> => {
+  const apiPut = async <T>(endpoint: string, body: any): Promise<T> => {
     return request<T>(endpoint, { method: 'PUT', body });
   };
 
@@ -49,7 +49,4 @@ const useApiService = () => {
     return request<T>(endpoint, { method: 'DELETE', body });
   };
 
-  return { delete: apiDelete, get, post, put };
-};
-
-export default useApiService;
+  export { apiGet, apiPost, apiPut, apiDelete };

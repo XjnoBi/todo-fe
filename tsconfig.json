@@ -21,7 +21,9 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
+      "api": ["api/index.ts"],
       "components": ["components/index.tsx"],
+      "hooks": ["hooks/*"],
       "modules/*": ["modules/*"],
       "utils/*": ["utils/*"]
     }

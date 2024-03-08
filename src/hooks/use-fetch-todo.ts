@@ -12,6 +12,9 @@ export type Todo = {
 
 const useFetchTodo = () => {
     const [data, setData] = React.useState<Todo[]>()
+    const [refetchTrigger, setRefetchTrigger ] = React.useState(1)
+
+    const refetch = () => setRefetchTrigger(refetchTrigger + 1)
 
     React.useEffect(() => {
         const fetchTodo = async () => {
@@ -20,9 +23,9 @@ const useFetchTodo = () => {
         }
 
         fetchTodo()
-    }, [])
+    }, [refetchTrigger])
 
-    return { data }
+    return { data, refetch }
 }
 
 export default useFetchTodo

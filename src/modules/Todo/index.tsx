@@ -2,16 +2,26 @@ import React from "react";
 
 import { Flexbox, Page } from "components";
 
+import Form from "./Form";
 import List from "./List";
-import { Todo } from "hooks/use-fetch-todo";
+import useFetchTodo, { Todo } from "hooks/use-fetch-todo";
 
 const TodoPage: React.FC = () => {
-  const [data, setData] = React.useState<Todo>();
+  const { data, refetch } = useFetchTodo();
+  const [todo, setTodo] = React.useState<Todo>();
 
   return (
     <Page>
-      <Flexbox flexDirection="column" alignItems="center">
-        <List onEdit={setData} />
+      <Flexbox gap="4rem">
+        <Form
+          key={todo?.id}
+          data={todo}
+          onSave={() => {
+            refetch();
+            setTodo(undefined);
+          }}
+        />
+        <List data={data} onEdit={setTodo} />
       </Flexbox>
     </Page>
   );

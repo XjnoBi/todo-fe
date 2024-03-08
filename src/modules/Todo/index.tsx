@@ -10,18 +10,32 @@ const TodoPage: React.FC = () => {
   const { data, refetch } = useFetchTodo();
   const [todo, setTodo] = React.useState<Todo>();
 
+  const refresh = () => {
+    refetch();
+    setTodo(undefined);
+  };
+
+  const positionLimits = React.useMemo(() => {
+    if (!data) {
+      return { min: 0, max: 0 };
+    }
+
+    return {
+      min: data[0].sequence,
+      max: data[data.length - 1].sequence,
+    };
+  }, [data]);
+
   return (
     <Page>
       <Flexbox gap="4rem">
         <Form
           key={todo?.id}
           data={todo}
-          onSave={() => {
-            refetch();
-            setTodo(undefined);
-          }}
+          positionLimits={positionLimits}
+          onSave={refresh}
         />
-        <List data={data} onEdit={setTodo} />
+        <List data={data} onEdit={setTodo} onDelete={refresh} />
       </Flexbox>
     </Page>
   );

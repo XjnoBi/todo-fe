@@ -77,6 +77,7 @@ const Form: React.FC<Props> = ({ data, onSave, positionLimits }) => {
         <TextInput
           error={errors.title}
           onChange={handleChange}
+          maxLength={50}
           label={isEditing ? 'Edit todo' : 'New todo'}
           name='title'
           value={values.title}

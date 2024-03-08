@@ -1,39 +1,55 @@
-import React from "react";
+import React from 'react'
 
-import { Button, Flexbox, Text } from "components";
+import { Button, Flexbox, Text } from 'components'
 
-import { Todo } from "hooks/use-fetch-todo";
-import useMutateTodo from "hooks/use-mutate-todo";
+import { Todo } from 'hooks/use-fetch-todo'
+import useMutateTodo from 'hooks/use-mutate-todo'
 
 type Props = {
-  data: Todo;
-  onEdit: (data: Todo) => void;
-  onDelete: () => void;
-};
+  data: Todo
+  onSelect: (data: Todo) => void
+  onChange: () => void
+}
 
-const Item: React.FC<Props> = ({ data, onEdit, onDelete }) => {
-  const { deleteTodo } = useMutateTodo();
+const Item: React.FC<Props> = ({ data, onSelect, onChange }) => {
+  const { updateTodo, deleteTodo } = useMutateTodo()
 
   const handleDelete = () => {
-    if (!data.id) return;
+    if (!data.id) return
 
-    deleteTodo(data.id);
-    onDelete();
-  };
+    deleteTodo(data.id)
+    onChange()
+  }
+
+  const handleToggleDone = () => {
+    if (!data.id) return
+
+    updateTodo({ ...data, is_completed: !data.is_completed })
+    onChange()
+  }
 
   return (
-    <Flexbox justifyContent="space-between" gap="1rem">
-      <Text>{data.title}</Text>
+    <Flexbox justifyContent='space-between' gap='16rem'>
+      <Text textDecoration={data.is_completed ? 'line-through' : undefined}>
+        {data.title}
+      </Text>
       <Flexbox>
-        <Button variant="ghost" onClick={() => onEdit(data)}>
-          Edit
-        </Button>
-        <Button variant="ghost" onClick={handleDelete}>
-          Delete
+        {!data.is_completed && (
+          <>
+            <Button variant='ghost' onClick={() => onSelect(data)}>
+              Edit
+            </Button>
+            <Button variant='ghost' onClick={handleDelete}>
+              Delete
+            </Button>
+          </>
+        )}
+        <Button variant='ghost' onClick={handleToggleDone}>
+          {data.is_completed ? 'Undo' : 'Done'}
         </Button>
       </Flexbox>
     </Flexbox>
-  );
-};
+  )
+}
 
-export default Item;
+export default Item
